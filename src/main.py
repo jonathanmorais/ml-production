@@ -1,23 +1,19 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi import APIRouter
-from iris import classify_iris
+from classify.iris import ClassIris
 
 app = FastAPI()
 router = APIRouter()
+class_iris = ClassIris.classify_iris
 
 @app.post('/predict')
-class Prediction:
-    def __init__(self, iris_features) -> None:
-        pass
-
-    def predict(iris_features: dict):
-        return classify_iris(iris_features)
+def predict(features: dict) -> dict:
+    return class_iris(features)
 
 @app.get('/health', status_code=200)
-class Health:
-    async def health_check():
-        return 'Iris classifier is all ready!'
+async def health_check():
+    return 'Iris classifier is all ready!'    
 
 app.include_router(router, prefix='/iris')
 
