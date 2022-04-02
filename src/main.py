@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi import APIRouter
-from classify.iris import ClassIris
+from services.prediction import ClassIris
 
 app = FastAPI()
 router = APIRouter()
