@@ -4,8 +4,9 @@ import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from .interfaces import IClassify, ILabel, ITrainning
+import logging
 
 class Label(ILabel):
     def get_label(x):
@@ -37,6 +38,15 @@ class Trainnig(ITrainning):
         clf.fit(X_train, y_train)
 
         return clf
+
+class CurateIris():
+    def accuracy_forest(prediction):
+        y_test = 0
+        return {
+            'accuracy': accuracy_score(y_test , prediction),
+            'confusion_matrix': confusion_matrix(y_test, prediction),
+            'classification_report': classification_report(y_test, prediction)
+    }
 
 class ClassIris(IClassify,Trainnig):
     def classify_iris(features: dict):
