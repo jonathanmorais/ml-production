@@ -12,4 +12,4 @@ COPY . .
 
 RUN pip3 install -r infra/requirements.txt
 
-CMD ["gunicorn", "src:app", "-w", "4", "-b", ":8080", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "src:main", "-w", "4", "-b", ":8080", "-k", "uvicorn.workers.UvicornWorker"]
