@@ -5,3 +5,4 @@ fastapi==0.55.1
 uvicorn==0.11.5
 newrelic==5.12.1.141
 gunicorn==20.0.4
+starlette-prometheus==0.9.0

@@ -2,9 +2,9 @@ FROM python:3.7-slim-buster
 
 RUN apt-get update && apt-get install -y python3-dev build-essential pipenv jq
 
-RUN mkdir -p /usr/src/iris
+RUN mkdir -p /
 
-WORKDIR /usr/src/iris
+WORKDIR /
 
 COPY . .
 
@@ -12,4 +12,4 @@ COPY . .
 
 RUN pip3 install -r infra/requirements.txt
 
-CMD ["gunicorn", "src:main", "-w", "4", "-b", ":8080", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "iris.main:app", "-w", "4", "-b", ":8080", "-k", "uvicorn.workers.UvicornWorker"]

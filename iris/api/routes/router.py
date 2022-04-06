@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from iris.api.routes import heartbeat, prediction, metrics
+from iris.api.routes import heartbeat, prediction
 from fastapi import FastAPI
 
 api_router = APIRouter()
