@@ -1,5 +1,4 @@
-from fastapi_skeleton.core import config
-
+from iris.core import config
 
 def test_prediction(test_client) -> None:
     response = test_client.post(
