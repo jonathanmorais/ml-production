@@ -5,7 +5,7 @@ metadata:
   name: iris-model
   namespace: seldon
   labels:
-    name: iris-model  
+    name: iris-model
 spec:
   name: classifier
   predictors:
@@ -41,7 +41,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    name: iris-model
+    app: iris-model-classifier-0-classifier
   ports:
     - protocol: TCP
       port: 80
@@ -61,7 +61,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /*
+          - path: /
             pathType: Prefix
             backend:
               service:
