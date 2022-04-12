@@ -1,0 +1,71 @@
+kubectl apply -f - << END
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  name: iris-model
+  namespace: seldon
+  labels:
+    name: iris-model  
+spec:
+  name: classifier
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - name: classifier
+          image: jonathan99/iris-ml-image:latest
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          livenessProbe:
+              failureThreshold: 3
+              initialDelaySeconds: 150
+              periodSeconds: 5
+              successThreshold: 1
+              tcpSocket:
+                port: http
+              timeoutSeconds: 1
+    graph:
+      name: classifier
+    name: classifier
+    replicas: 1
+END    
+---
+kubectl apply -f - << END
+apiVersion: v1
+kind: Service
+metadata:
+  name: iris-service
+  namespace: seldon
+spec:
+  type: ClusterIP
+  selector:
+    name: iris-model
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+END            
+---
+kubectl apply -f - << END
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: iris-ingress
+  namespace: seldon
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            pathType: Prefix
+            backend:
+              service:
+                name: iris-service
+                port:
+                  number: 80
+END
